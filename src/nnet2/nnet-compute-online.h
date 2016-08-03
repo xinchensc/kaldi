@@ -69,6 +69,10 @@ class NnetOnlineComputer {
   // calling Flush.  It's valid to call Flush if no frames have been
   // input or if no frames have been output; this produces empty output.
   void Flush(CuMatrix<BaseFloat> *output);
+  
+  CuVector<BaseFloat> last_seen_input_frame_;  // stores the last seen frame
+  // for the sake of right padding the input. This is useful to deal with the
+  // scenario where the initial component is not a splice component.
 
  private:
   void Propagate();
@@ -90,10 +94,6 @@ class NnetOnlineComputer {
   // from previous chunks (as we can have several chunks with insufficient
   // context)
   
-  CuVector<BaseFloat> last_seen_input_frame_;  // stores the last seen frame
-  // for the sake of right padding the input. This is useful to deal with the
-  // scenario where the initial component is not a splice component.
-
   bool pad_input_;  // pad input at the beginning of the decode
 
   bool is_first_chunk_;
