@@ -569,12 +569,19 @@ bool SingleUtteranceNnet2DecoderThreaded::RunNnetEvaluationInternal() {
     
     if (feats.NumRows() == 0) {
       if (features_done) {
-        // flush out the last few frames.  Note: this is the only place from
-        // which we check feature_buffer_finished_, and we'll exit the loop, so
-        // if we reach here it must be the first time it was true.
         last_time = true;
-        computer.Flush(&cu_loglikes);
-        ProcessLoglikes(log_inv_prior, &cu_loglikes);
+        if ( computer.last_seen_input_frame_ == 0 )
+        {
+            KALDI_LOG << "XCHEN WARNING";
+        }
+        else
+        {
+            // flush out the last few frames.  Note: this is the only place from
+            // which we check feature_buffer_finished_, and we'll exit the loop, so
+            // if we reach here it must be the first time it was true.
+            computer.Flush(&cu_loglikes);
+            ProcessLoglikes(log_inv_prior, &cu_loglikes);
+        }
       }
     } else {
       CuMatrix<BaseFloat> cu_feats;
