@@ -570,7 +570,7 @@ bool SingleUtteranceNnet2DecoderThreaded::RunNnetEvaluationInternal() {
     if (feats.NumRows() == 0) {
       if (features_done) {
         last_time = true;
-        if ( computer.last_seen_input_frame_ == 0 )
+        if ( computer.last_seen_input_frame_.Dim() == 0 )
         {
             KALDI_LOG << "XCHEN WARNING";
         }
